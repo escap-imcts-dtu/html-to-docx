@@ -112,11 +112,46 @@ declare namespace HTMLtoDOCX {
     }
 }
 
+declare namespace HTMLtoDOCX {
+    interface OoxmlFragmentMedia {
+        nameInMedia: string;
+        contentType: string;
+        data: Buffer;
+    }
+
+    interface OoxmlFragmentRelationship {
+        relationshipId: number;
+        type: string;
+        target: string;
+        targetMode: string;
+    }
+
+    interface OoxmlFragmentNumbering {
+        numberingId: number;
+        type: 'ol' | 'ul';
+        properties: Record<string, unknown>;
+    }
+
+    interface OoxmlFragment {
+        bodyXml: string;
+        media: OoxmlFragmentMedia[];
+        relationships: OoxmlFragmentRelationship[];
+        numbering: OoxmlFragmentNumbering[];
+    }
+}
+
 declare function HTMLtoDOCX(
     htmlString: string,
     headerHTMLstring?: string | null,
     documentOptions?: HTMLtoDOCX.DocumentOptions,
     footerHtmlString?: string | null,
 ): Promise<ArrayBuffer | Blob | Buffer>;
+
+declare namespace HTMLtoDOCX {
+    function htmlToOoxmlFragment(
+        htmlString: string,
+        documentOptions?: HTMLtoDOCX.DocumentOptions,
+    ): Promise<HTMLtoDOCX.OoxmlFragment>;
+}
 
 export = HTMLtoDOCX;

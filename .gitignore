@@ -111,3 +111,14 @@ temp/
 
 # macOS
 .DS_Store
+
+# ESCAP POC test outputs (rendered PDFs of real templates may contain
+# sensitive content — never commit). All test outputs are reproducible
+# locally by running the corresponding test scripts.
+poc-bridge/out/
+poc-tiptap/out/
+poc-html-module/out/
+
+# Local debug scratch (files prefixed with _debug-).
+poc-tiptap/_debug-*.mjs
+poc-bridge/_debug-*.mjs

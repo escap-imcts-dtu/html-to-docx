@@ -4,6 +4,7 @@ import { minify } from 'html-minifier-terser';
 
 import createDocumentOptionsAndMergeWithDefaults from './src/utils/options-utils';
 import addFilesToContainer from './src/html-to-docx';
+import htmlToOoxmlFragment from './src/fragment';
 
 const minifyHTMLString = async (htmlString) => {
   try {
@@ -62,3 +63,4 @@ async function generateContainer(
 }
 
 export default generateContainer;
+export { htmlToOoxmlFragment };
