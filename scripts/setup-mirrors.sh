@@ -1,27 +1,33 @@
 #!/usr/bin/env bash
-# Configure `origin` to push to BOTH the GitHub mirror and the ADO mirror.
-# Run this once after cloning so `git push origin main` writes to both.
+# Configure the two remotes used by this fork: GitHub (origin) and ADO (ado).
+# Run this once after cloning.
 #
 # We mirror to two remotes for resilience: if one is accidentally deleted
 # or becomes inaccessible, the other holds the full history.
 #
-# - GitHub: https://github.com/escap-imcts-dtu/html-to-docx (consumed by ESCAP)
-# - ADO:    https://unescap.visualstudio.com/ESCAP-Document-Center/_git/html-to-docx (backup)
+# - origin: https://github.com/escap-imcts-dtu/html-to-docx.git           (consumed by ESCAP)
+# - ado:    https://unescap.visualstudio.com/ESCAP-Document-Center/_git/html-to-docx (backup)
+#
+# We deliberately do NOT configure origin to push to both URLs at once —
+# that would require ADO creds to be set up in a git credential helper.
+# Use ./scripts/push-mirrors.sh to push to both with az CLI auth.
 
 set -euo pipefail
 
 GH_URL="https://github.com/escap-imcts-dtu/html-to-docx.git"
 ADO_URL="https://unescap.visualstudio.com/ESCAP-Document-Center/_git/html-to-docx"
 
-git remote set-url --push origin "$GH_URL"
-git remote set-url --add --push origin "$ADO_URL"
+# Make origin point at GitHub only (single push URL).
+git remote set-url origin "$GH_URL"
 
-# Add a separate `ado` remote too, so it's possible to push/pull ADO directly.
-if ! git remote get-url ado > /dev/null 2>&1; then
+# Add or update the `ado` remote.
+if git remote get-url ado > /dev/null 2>&1; then
+  git remote set-url ado "$ADO_URL"
+else
   git remote add ado "$ADO_URL"
 fi
 
-echo "origin push URLs:"
-git remote -v | grep '(push)'
+echo "remotes:"
+git remote -v
 echo
 echo "Push to both with: ./scripts/push-mirrors.sh main"
