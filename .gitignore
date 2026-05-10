@@ -82,7 +82,12 @@ typings/
 .nuxt
 
 # rollup.js default build output
-dist/
+# NOTE: dist/ IS committed in this fork because ESCAP installs us via
+# `git+https://github.com/escap-imcts-dtu/html-to-docx.git#<sha>`. npm
+# git installs run prepare → rollup, which is fragile across node/npm
+# versions. Shipping the prebuilt dist makes consumer installs zero-build.
+# Run `npm run build && git add dist` whenever the source changes.
+# dist/
 
 # Uncomment the public line if your project uses Gatsby
 # https://nextjs.org/blog/next-9-1#public-directory-support

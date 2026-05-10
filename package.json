@@ -1,6 +1,6 @@
 {
   "name": "@turbodocx/html-to-docx",
-  "version": "1.20.1",
+  "version": "1.20.1-escap.1",
   "description": "HTML to DOCX converter",
   "keywords": [
     "html-to-docx",
@@ -78,7 +78,7 @@
     "build:browser": "cross-env BUILD_TARGET=browser rollup -c",
     "build:browser:prod": "cross-env NODE_ENV=production BUILD_TARGET=browser rollup -c",
     "diff:docx": "node scripts/diff-docx.js",
-    "prepare": "husky install || true ; npm run build",
+    "prepare": "husky install || true",
     "postinstall": "node scripts/postinstall.js",
     "test:ts-example": "npm run build && cross-env TS_NODE_PROJECT=example/typescript/tsconfig.json ts-node -r tsconfig-paths/register example/typescript/typescript-example.ts"
   },
