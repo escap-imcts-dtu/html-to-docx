@@ -16,8 +16,14 @@ echo "→ pushing $BRANCH to GitHub (origin)…"
 git push origin "$BRANCH"
 
 echo "→ pushing $BRANCH to ADO (ado)…"
-TOKEN=$(az account get-access-token --resource "$ADO_RESOURCE" --query accessToken -o tsv 2>/dev/null \
-  || { echo "az CLI not logged in. Run: az login"; exit 1; })
+TOKEN=$(az account get-access-token --resource "$ADO_RESOURCE" --query accessToken -o tsv 2>/dev/null) || {
+  echo "az CLI not logged in or get-access-token failed. Run: az login" >&2
+  exit 1
+}
+if [ -z "$TOKEN" ]; then
+  echo "az returned empty token" >&2
+  exit 1
+fi
 git -c http.extraheader="Authorization: Bearer $TOKEN" push ado "$BRANCH"
 
 echo "✓ both mirrors updated to $(git rev-parse --short "$BRANCH")"
