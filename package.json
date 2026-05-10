@@ -78,7 +78,7 @@
     "build:browser": "cross-env BUILD_TARGET=browser rollup -c",
     "build:browser:prod": "cross-env NODE_ENV=production BUILD_TARGET=browser rollup -c",
     "diff:docx": "node scripts/diff-docx.js",
-    "prepare": "husky install",
+    "prepare": "husky install || true ; npm run build",
     "postinstall": "node scripts/postinstall.js",
     "test:ts-example": "npm run build && cross-env TS_NODE_PROJECT=example/typescript/tsconfig.json ts-node -r tsconfig-paths/register example/typescript/typescript-example.ts"
   },
